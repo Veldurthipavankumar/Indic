@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block body %}
+<div>
+    <h2>Stats</h2>
+    <!-- <input type="checkbox" name="million" value="m"> Million<br>
+    <input type="checkbox" name="thousand" value="k"> Thousand<br>
+    <input type="checkbox" class="css-checkbox" onClick="checkAllToggle(this,event)"/> Million -->
+    <div class="stats">
+        <div>
+            Below is matrix showing number of parallel sentences after clearning data. <br>
+            Highlighted cells show pairs with parallel sentences > 1 Million (High Resource)
+        </div>
+        
+        <table style="width:100%"> 
+            <thead>
+                <tr>
+                    <th> Lang Codes </th>
+                    {% for i,language_c in enumerate_stats_langs %}
+                    <th><a href="#" data-toggle="tooltip" title="{{language_c['language']}}">{{ language_c['code']}}</a></th>
+                    {% endfor %}
+                </tr>
+                <tr> 
+                    <th>  </th>
+                    {% for i,language_c in enumerate_stats_langs %}
+                    <th><span id="small" style="font-size:12px;">{{ language_c['language']}}</span></th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for i,language_r in enumerate_stats_langs %}
+                
+                <tr id="{{language_r['code']}}">
+                    <td><a href="#" data-toggle="tooltip" title="{{language_r['language']}}">{{ language_r['code']}}</a> <span id="small" style="font-size:12px;">{{ language_r['language']}}</span></td> 
+                    {% for j,language_c in enumerate_stats_langs %}
+                        {% if j > i %}
+                            {% if ((stats['merge_stats'][language_r['code'] + '-' + language_c['code']]['total'] | float)/1000000) > 1 %}
+                                <td id="{{language_c['code']}}" class = 'high'>{{ "%.2f"| format((stats['merge_stats'][language_r['code'] + '-' + language_c['code']]['total'] | float)/1000000) }} M </td>
+                            {% elif  ((stats['merge_stats'][language_r['code'] + '-' + language_c['code']]['total'] | float)/1000000) > 0.1 and ((stats['merge_stats'][language_r['code'] + '-' + language_c['code']]['total'] | float)/1000000) <= 1 %}
+                                <td id="{{language_c['code']}}" class = 'medium'>{{ "%.2f"| format((stats['merge_stats'][language_r['code'] + '-' + language_c['code']]['total'] | float)/1000000) }} M </td>
+                            {% else %}
+                                <td id="{{language_c['code']}}">{{ "%.2f"| format((stats['merge_stats'][language_r['code'] + '-' + language_c['code']]['total'] | float)/1000000) }} M </td>
+                            {% endif %}
+                        {% else %}  
+                        <td> - </td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+           
+
+        </table>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block body %}
+<div>
+    <h2>Catalogue</h2>
+    <div class="catalogue">
+        <form action="{{url_for('catalogue')}}" method="post">
+            <div class="row">
+              <div class="col">
+                <select class="form-control" name="language1" id="lang1">
+                    {% for i,language in enumerate_stats_langs %}
+                        {% if lang1 == language['code'] %}
+                            <option value="{{language['code']}}" selected="selected">{{language['language'] + '(' + language['code'] + ')'}}</option>
+                        {% else %}
+                            <option value="{{language['code']}}">{{language['language'] + '(' + language['code'] + ')'}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+              </div>
+              <div class="col">
+                <select class="form-control" name="language2" id="lang2">
+                    {% for i,language in enumerate_stats_langs %}
+                        {% if lang2 == language['code'] %}
+                            <option value="{{language['code']}}" selected="selected">{{language['language'] + '(' + language['code'] + ')'}}</option>
+                        {% else %}
+                            <option value="{{language['code']}}">{{language['language'] + '(' + language['code'] + ')'}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+              </div>
+              <div class="col">
+                  <input type="submit" value="Submit">
+              </div>
+
+            </div>
+        </form>
+
+        {% if show %}
+        <h4> {{pairStats['code']}} </h4> 
+        <table>
+            <thead>
+                <tr>
+                    <th> Source </th>
+                    <th> All </th>
+                    <th> Cleaned </th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {% for key in pairStats['clean'].keys() %}
+                    {% if key == "total" %}
+                        <tr id="total">
+                            <td>{{key}}</td>
+                            <td>{{pairStats['base'][key]}}</td>
+                            <td>{{pairStats['clean'][key]}}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td><a href="{{ url_for('reference',source=key) }}">{{key}}</a></td>
+                            <td>{{pairStats['base'][key]}}</td>
+                            <td>{{pairStats['clean'][key]}}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% endif %} 
+
+
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+
+</script>
+{% endblock %}

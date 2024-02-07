@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block body %}
+<div>
+    <h2>Boli Dataset</h2>
+    <p>
+      We provide parallel data for Machine Translation for translation amongst Indian languages.
+    </p>
+
+    See the combined stats <a href="{{ url_for('stats') }}">here</a>
+    <br>
+    See stats for pairs here <a href="{{ url_for('catalogue') }}">here</a>
+</div>
+{% endblock %}

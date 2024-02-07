@@ -1,0 +1,39 @@
+
+{% extends "base.html" %}
+{% block body %}
+<div>
+    <h3>References</h3>
+
+    {% for key in references.keys() %}
+    <div class = "reference {{'highlight' if (source != None and (key == source)) }}" id='{{ key }}'>
+        {% if references[key]['type'] == "paper" %}
+        <span id="ref-name" > <i class="fas fa-book"></i><a href="{{ references[key]['paper_link'] }}"> {{references[key]['name']}}</a></span>
+        {% elif references[key]['type'] == "website" %}
+        <span id="ref-name" >  <i class="fas fa-info-circle"></i> <a href="{{ references[key]['link'] }}">{{references[key]['name']}}</a></span>
+        {% else %}
+        <span id="ref-name" ><i class="fas fa-info-circle"></i> <a href="{{ references[key]['link'] }}">{{references[key]['name']}}</a></span>
+        {% endif %}
+        <br>
+        <span id="ref-mla">{{references[key]['MLA']}}</span>
+        <br>
+        <hr>
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock %}
+
+{% block script %}
+
+{% if source != None %}
+<script>
+    var source = $("div.highlight")
+    source[0].scrollIntoView({
+            behavior: 'auto',
+            block: 'center',
+            inline: 'center'
+        });
+</script>
+{% endif %}
+
+{% endblock %}
